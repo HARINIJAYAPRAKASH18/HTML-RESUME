@@ -1,0 +1,329 @@
+print('********************************************************************************************')
+print('                           AIRWAY MANAGEMENT SYSTEM' ) 
+print('********************************************************************************************')
+
+def airway_master():
+    print('***************************** AIRWAY MANAGEMENT ************************************')
+    import pickle
+
+    def Adddata(airway_code):#p
+        print("ADDING INFO AIRWAY MASTER")
+        fp = open('airwaysindia1.dat','wb')
+        n=int(input("ENTER NO. OF PASSENGERS:"))
+        print()
+        ch = 'Y'
+        st = {}
+        for i in range(n):
+            while ch.upper() == 'Y':
+                PNR_NO = int(input('enter PNR number'))
+                Name= input("Enter the Name")
+                a = True
+                while a:
+                    if Name.isalpha()!= True:
+                        print("enter valid Name")
+                        Name = input("enter name")
+                    elif Name.isalpha() == True:
+                            a = False
+                DOB = input('Enter date of birth(dd/mm/yyyy)')
+                Aadhar = input("Enter the aadhar no")
+                a = True
+                while a:
+                    if Aadhar.isdigit() != True:
+                        print("enter valid Aadhar no")
+                        Aadhar = input("enter Aadhar no")
+                    elif Aadhar.isdigit()== True:
+                            a = False
+                Phone_no = input('Enter ph no')
+                a = True
+                while a:
+                    if Phone_no.isdigit()!= True:
+                        print("enter valid phone no")
+                        Phone_no = input("enter phone no")
+                    elif Phone_no.isdigit()== True:
+                            a = False
+                Gmail_id = input('Enter gmail')
+                Amount = input('enter amount')
+                a = True
+                while a:
+                    if Amount.isdigit()!= True:
+                        print("enter valid amount")
+                        Amount = input("enter amount")
+                    elif Amount.isdigit()== True:
+                            a = False
+                AIRWAY_NAME = input('ENTER THE AIRWAY')
+                st['PNR_NO'] = PNR_NO
+                st['A_code'] = airway_code
+                st['Name'] = Name
+                st['DOB'] = DOB
+                st['Aadhar'] = Aadhar
+                st['Phone_no'] = Phone_no
+                st['Gmail_id'] = Gmail_id
+                st['Amount'] = Amount
+                st['AIRWAY_NAME'] = AIRWAY_NAME
+                pickle.dump(st,fp)
+                print(st)
+                ch = input('do u want to add more records into AIRWAY MASTER (Y/N)')
+        fp.close()
+
+    def Update():
+        print("UPDATING INFO AIRWAY MASTER")
+        fp = open('airwaysindia1.dat','rb+')
+        rn = input('Enter name in which data is to be updated')
+        found = False
+        data = {}
+        try:
+            while True:
+                cur_pos=fp.tell()
+                data=pickle.load(fp)
+                if data['Name'] == rn:
+                    data['PNR_NO'] =  int(input('enter PNR no'))
+                    data['A_code'] = int(input('enter branch code'))
+                    data['Name'] = input('enter name')
+                    data['DOB'] = input('enter dob')
+                    data['Aadhar'] = int(input('enter aadhar no'))
+                    data['Phone_no'] = int(input('enter phone no'))
+                    data['Gmail_id'] = input('enter gmail')
+                    data['Amount'] = int(input('enter amount'))
+                    data['AIRWAY_NAME'] = input('enter airway name')
+                    fp.seek(cur_pos) 
+                    pickle.dump(data,fp)
+                    found = True
+                    break
+        except EOFError:
+            if found == False:
+                print('record not found')
+            else:
+                print('record updated')
+        fp.close()
+
+    def Display():
+        import pickle
+        print("DISPLAYING INFO AIRWAY MASTER")
+        fp = open('airwaysindia1.dat','rb')
+        while True:
+            try:
+                rec = pickle.load(fp)
+                print(rec)
+            except EOFError:
+                break
+        fp.close()
+
+    def Search():
+        print("SEARCHING INFO AIRWAY MASTER")
+        fp = open('airwaysindia1.dat','rb')
+        rn = int(input('Enter PNR no in which data is to be searched'))
+        flag = True
+        while True:
+            try:
+                rec = pickle.load(fp)
+                if rec['PNR_NO'] == rn:
+                    print('Yes,the above data is present')
+                    print(rec)
+                    flag = False
+            except EOFError:
+                break
+        if flag == True:
+            print('record not found')
+        fp.close()
+
+    def Delete():
+        print("DELETING INFO AIRWAY MASTER")
+        import pickle
+        import os
+        fp=open("airwaysindia1.dat","rb")
+        fp1=open("airwayssss1.dat","wb")
+        a=int(input("enter the PNR_NO to delete:"))
+        while True:
+            try:
+                r=pickle.load(fp)
+                if r["PNR_NO"]!=a:
+                      pickle.dump(r,fp1)
+            except:
+                break
+        fp.close()
+        fp1.close()
+        os.remove("airwaysindia1.dat")
+        os.rename("airwayssss1.dat","airwaysindia1.dat") 
+
+    print("MAIN MENU-AIRWAY MASTER")   
+    ch = 'Y'
+    while ch.upper() == 'Y':
+        print('1.Add Passenger')
+        print('2.Update Passenger info')
+        print('3.Display Passenger info')
+        print('4.Search for a given passenger')
+        print('5.Delete a given Passenger info')
+        print('6.Exit')
+        c = int(input('enter from 1/2/3/4/5'))
+        if c==1:
+            
+            Adddata(18)#p
+        elif c == 2:
+            Update()
+        elif c == 3:
+            Display()
+        elif c == 4:
+            Search()
+        elif c == 5:
+            Delete()
+        else:
+            exit
+        ch = input('do you want to continue or exit main menu of AIRWAY MASTER (Y/N)')
+   
+def airway_transaction():
+    import pickle
+    print('**************************** AIRWAY TRANSACTION ******************************')
+    def Adddata1():
+        fp=open('airways1.dat','wb')
+        st1={}
+        ch='Y'
+        while(ch.upper()=='Y'):
+            PNR_NO=int(input('enter pnr no.'))
+            nop_=input("enter passenger name:")
+            agp_=int(input('enter passenger age:'))
+            flnm=input("enter flight name:")
+ 
+            fcl=input('enter class type:')
+            if fcl=='economy':
+                print('$999')
+ 
+            if fcl=='business':
+                print('$1200')
+                
+            if fcl=='firstclass':
+                print('$1500')
+ 
+            start=input("enter starting place:")
+ 
+            end=input("enter ending place:")
+            st1['PNRNO']=PNR_NO
+            st1['na_OF_pass']=nop_
+            st1['AGE_OF_pass']=agp_
+ 
+ 
+            st1['FLIGHT_NAME']=flnm
+            st1['CLASS']=fcl
+            st1['STARTING_PLACE']=start
+            st1['ENDING_PLACE']=end
+ 
+            pickle.dump(st1,fp)
+            print(st1)
+            ch=input('Do you want to add more(Y/N)')
+        fp.close()
+
+
+    def Update():
+        print("UPDATING INFO AIRWAY TRANSACTION")
+        fp=open("airways1.dat","rb+")
+        pc=int(input("enter the pnr number"))
+        #f.seek(0)
+        while True:
+            try:
+                cur_pos=fp.tell()
+                data=pickle.load(fp)
+                if data['PNRNO']==pc:
+                    data['PNRNO']=int(input('enter pnr no.'))
+ 
+                    data['na_OF_pass']=input("enter passenger name:")
+ 
+                    data['AGE_OF_pass']=int(input('enter passenger age:'))
+ 
+                    data['FLIGHTNAME']=input('enter flight name:')
+
+ 
+                    data['CLASS']=input('enter class type:')
+ 
+                    data['STARTINGPLACE']=input("enter starting place:")
+ 
+                    data['ENDINGPLACE']=input("enter ending place:")
+ 
+                    fp.seek(cur_pos)
+                    pickle.dump(data,fp)
+                    break
+            except EOFError:
+                if found == False:
+                    print('record not found')
+                else:
+                    print('record updated')
+        fp.close()
+
+    def Display():
+        print("DISPLAY INFO AIRWAY TRANSACTION")
+        fp = open('airways1.dat','rb')
+        while True:
+            try:
+                rec = pickle.load(fp)
+                print(rec)
+            except EOFError:
+                break
+        fp.close()
+
+    def Search():
+        print("SEARCH INFO AIRWAY TRANSACTION")
+        fp = open('airways1.dat','rb')
+        rn = int(input('Enter PNR no to be searched')) 
+        while True:
+            try:
+                rec = pickle.load(fp)
+                if rec['PNRNO'] == rn:
+                    print('Yes , the above data is present')
+                    print(rec)
+            except EOFError:
+                break
+        fp.close()
+
+    def Delete1():
+        import pickle
+        import os
+        fp = open('airwayS1.dat','rb')
+        fp1 = open('airways2.dat','wb')
+        a = int(input('enter PNR no to delete:'))
+        while True:
+            try:
+                r = pickle.load(fp)
+                if r['PNRNO']!=a:
+                    pickle.dump(r,fp1)
+            except EOFError:
+                break
+        fp.close()
+        fp1.close()
+        os.remove('airways1.dat')
+        os.rename('airways2.dat','airways2.dat')
+
+    print("INTO MAIN MENU-AIRWAY TRANSACTION")
+    ch = 'Y'
+    while ch.upper() == 'Y':
+        print('1.Add transaction of Passenger')
+        print('2.Update Passanger details')
+        print('3.Display Passenger details')
+        print('4.Search for a given Passenger')
+        print('5.Delete a given Passenger details')
+        print('6.Exit')
+        c = int(input('Enter from 1/2/3/4/5'))
+        if c==1:
+            Adddata1()
+        elif c == 2:
+            Update()
+        elif c == 3:
+            Display()
+        elif c == 4:
+            Search()
+        elif c == 5:
+            Delete1()
+        else: 
+            exit
+        ch = input('do you want to exit the main menu of transaction (Y/N)')
+
+ch = 'Y'
+while ch.upper() == 'Y':
+    print("MASTER MENU") 
+    print('1.AIRWAY MASTER')
+    print('2.AIRWAY TRANSACTION')
+    c = int(input('ENTER NO: 1/2'))
+    if c == 1:
+        airway_master()
+    elif c == 2:
+        airway_transaction()
+    else:
+        exit
+    ch = input('DO YOU WANT TO CONTINUE(Y/N)')
